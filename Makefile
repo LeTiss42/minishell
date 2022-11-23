@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mravera <@student.42lausanne.ch>           +#+  +:+       +#+         #
+#    By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 17:19:45 by mravera           #+#    #+#              #
-#    Updated: 2022/11/18 17:31:44 by mravera          ###   ########.fr        #
+#    Updated: 2022/11/23 16:09:54 by mravera          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,14 +17,14 @@ FOLDSRC = ./src/
 
 NAME = minishell
 
-SRC = 
+SRC = ms_main.c
 
 all = $(NAME)
 
-$(NAME) : $(FOLDSRC) $(FOLDSRC)$(SRC:%.c=%.o)
+$(NAME) : $(FOLDSRC)$(SRC:%.c=%.o)
 	$(CC) $(CFLAGS) $^ -o $@
 
-%.o : $(FOLDSRC)$(SRC)
+%.o : $(FOLDSRC)%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
@@ -35,5 +35,5 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : all bonus clean fclean re
+.PHONY : all clean fclean re
 
