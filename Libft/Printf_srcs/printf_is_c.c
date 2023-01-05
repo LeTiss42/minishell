@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_minishell.h                                     :+:      :+:    :+:   */
+/*   printf_is_c.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/18 17:19:17 by mravera           #+#    #+#             */
-/*   Updated: 2022/11/23 16:06:44 by mravera          ###   ########.fr       */
+/*   Created: 2022/03/04 11:23:26 by mathis            #+#    #+#             */
+/*   Updated: 2022/10/08 14:00:42 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MINISHELL_H
-# define FT_MINISHELL_H
+#include "../libft.h"
 
-# include <stdio.h>
-# include <stdlib.h>
+int	printf_is_c(va_list lst)
+{
+	int	x;
 
-#endif
+	x = va_arg(lst, const int);
+	return (write(1, &x, 1));
+}
