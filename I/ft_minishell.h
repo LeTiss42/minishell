@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:19:17 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 17:14:55 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 18:30:33 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ typedef struct s_env //node
 	struct s_env	*prev;
 }	t_env;
 
-typedef struct s_pipe
+typedef struct s_admpipe
 {
 	int		**fd;
 	int		*pid;
 	int		nbcmd;
 	int		pipe_bltin;
-}	t_pipe;
+}	t_admpipe;
 
 typedef struct s_admin //ad
 {
