@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ms_lstcmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:53:44 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 17:15:05 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 18:45:00 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../I/ft_minishell.h"
 
-t_cmd	*pa_lstnew(t_cmd *previous)
+t_cmd	*cmd_lstnew(t_cmd *previous)
 {
 	t_cmd	*cmd;
 
@@ -32,19 +32,19 @@ t_cmd	*pa_lstnew(t_cmd *previous)
 	return (cmd);
 }
 
-void	pa_lstadd_next(t_cmd **alst, t_cmd *next)
+void	cmd_lstadd_next(t_cmd **alst, t_cmd *next)
 {
 	if (*alst)
 	{
-		pa_lst_fst_or_lst(alst, 1);
+		cmd_lst_first_or_last(alst, 1);
 		(*alst)->next = next;
-		pa_lst_fst_or_lst(alst, 1);
+		cmd_lst_first_or_last(alst, 1);
 	}
 	else
 		*alst = next;
 }
 
-void	pa_lst_fst_or_lst(t_cmd **pa, int flag)
+void	cmd_lst_first_or_last(t_cmd **pa, int flag)
 {
 	if (flag == 0)
 	{

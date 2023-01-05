@@ -3,27 +3,106 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:46:12 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 17:30:03 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 21:29:54 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../I/ft_minishell.h"
+
+int	is_builtins(t_admin *adm)
+{
+	if (!adm->comlist->com)
+		return (1);
+	adm->comlist->com = ft_strtolower(adm->comlist->com);
+	if (!ft_strcmp("echo", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("cd", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("pwd", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("env", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("export", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("unset", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("exit", adm->comlist->com))
+		return (1);
+	return (0);
+}
+
+void	check_special_char(t_admin *adm, char *line, int *ret, int *n)
+{
+	while (*(line + (*ret)) == ' ')
+		(*ret)++;
+	if (*(line + *ret))
+	{
+		if (*(line + *ret) == '\'')
+		{
+			adm->comlist->args[*n] = ft_substr(line + *ret, 0,
+					pos_n_char(line + *ret, 2, '\''));
+			*ret += pos_n_char(line + *ret, 2, '\'');
+		}
+		else if (*(line + *ret) == '"')
+		{
+			adm->comlist->args[*n] = ft_substr(line + *ret, 0,
+					pos_n_char(line + *ret, 2, '"'));
+			*ret += pos_n_char(line + *ret, 2, '"');
+		}
+		else
+		{
+			adm->comlist->args[*n] = ft_strtrim_f(ft_substr(line + *ret, 0,
+						ms_strlen_separator(line + *ret, 0)), " ");
+			*ret += ms_strlen_separator(line + *ret, 0);
+		}
+	}
+	*n = *n + 1;
+	*ret += ms_fill_redir(adm, line + (*ret));
+}
+
+
+int	ms_count_args(const char *s)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (s[i] && s[i] != '|')
+	{
+		i = skip_between_char(s, i, '\'');
+		if (i == -1)
+			return (-1);
+		i = skip_between_char(s, i, '"');
+		if (i == -1)
+			return (-1);
+		if (!ft_isspace(s[i]) && s[i] != '>' && s[i] != '<'
+			&& (ft_isspace(s[i + 1]) || s[i + 1] == '\0'
+				|| s[i + 1] == '>' || s[i + 1] == '<' || s[i + 1] == '|'))
+			++count;
+		if (s[i] == '>' || s[i] == '<')
+			i += ft_skip_op(s + i);
+		else
+			++i;
+	}
+	return (count);
+}
 
 int	ms_parse_line(t_admin *adm, char *str)
 {
 	char	*tmp;
 	int		pop;
 
-	adm->comlist = pa_lstnew(NULL);
+	adm->comlist = cmd_lstnew(NULL);
 	adm->comhd = adm->comlist;
 	tmp = str;
 	pop = 0;
 	while (*str)
 	{
-		str += populate_pa(adm, str, &pop);
+		str += fill_cmd(adm, str, &pop);
 		if (pop < 0)
 			return (1);
 		if (*str == '|')
@@ -31,20 +110,20 @@ int	ms_parse_line(t_admin *adm, char *str)
 			++str;
 			while (ft_isspace(*str) && *str)
 				++str;
-			pa_lstadd_next(&adm->comlist, pa_lstnew(adm->comlist));
+			cmd_lstadd_next(&adm->comlist, cmd_lstnew(adm->comlist));
 		}
 	}
 	free(tmp);
 	return (0);
 }
 
-int	populate_pa(t_admin *adm, char *str, int *pop)
+int	fill_cmd(t_admin *adm, char *str, int *pop)
 {
 	int	n;
 	int	ret;
 
 	n = 0;
-	ret = populate_redir(adm, str);
+	ret = ms_fill_redir(adm, str);
 	if (ret < 0)
 	{
 		*pop = -1;

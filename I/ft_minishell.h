@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:19:17 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 18:30:33 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 21:44:19 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct s_admin //ad
 
 typedef struct s_redir
 {
-	char			*op;
+	char			*operator;
 	char			*file;
 	struct s_redir	*prev;
 	struct s_redir	*next;
@@ -95,7 +95,10 @@ int		ms_builtin(char *com, t_admin *adm);
 void	ms_bonjour(t_admin *adm);
 
 //ms_parsing.c
+int		ms_count_args(const char *s);
+int		is_builtins(t_admin *adm);
 int		ms_parse_line(t_admin *adm, char *str);
+int		fill_cmd(t_admin *adm, char *str, int *pop);
 
 //ms_supersplit.c
 int		ms_supersplit(t_admin *adm);
@@ -112,6 +115,7 @@ char	*ms_new_pwd(char *old_pwd);
 char	*ms_new_oldpwd(char *old_pwd);
 int		ms_lstcomp(t_list *a, t_list *b);
 int		ms_lento(char *str, char x);
+char	*ft_strtrim_free(char *s1, char const *set);
 
 //builtins
 //ms_echo.c
@@ -184,9 +188,27 @@ int		ms_setpid(t_admin *adm);
 //test
 void	rl_replace_line(const char *text, int clear_undo);
 
-//ms_lstcmd
-t_cmd	*pa_lstnew(t_cmd *previous);
-void	pa_lstadd_next(t_cmd **alst, t_cmd *next);
-void	pa_lst_fst_or_lst(t_cmd **pa, int flag);
+//ms_lstcmd.c
+t_cmd	*cmd_lstnew(t_cmd *previous);
+void	cmd_lstadd_next(t_cmd **alst, t_cmd *next);
+void	cmd_lst_first_or_last(t_cmd **pa, int flag);
+
+//ms_redirection.c
+void	ms_redir_lst_first_or_last(t_redir **redir, int flag);
+int		ms_fill_redir(t_admin *adm, const char *l);
+t_redir	*ms_redir_lstnew(struct s_redir *previous);
+void	ms_redir_lstadd_next(t_redir **alst, t_redir *next);
+
+//ms_strlen.c
+int		ms_skip_between_char(const char *s, int i, char c);
+int		ms_strlen_operator(const char *s);
+int		ms_skip_operator(const char *s);
+int		ms_strlen_separator(const char	*s, int flag);
+
+//ms_quote.c
+int		pos_n_char(char *str, int n, char c);
+int		count_quote(char *str, char c);
+int		check_quote(char *str, char c);
+void	trim_quote(t_admin *adm);
 
 #endif

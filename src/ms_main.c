@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:21:55 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 16:23:54 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 21:44:05 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		handle_signal();
-		if (!get_line(&adm))
+		if (!ms_prompt(&adm))
 			break ;
-		temp = ms_split(&adm);
+		temp = ms_supersplit(&adm);
 		if (temp == 1)
 			break ;
 		if (temp == 2 || temp == 3)

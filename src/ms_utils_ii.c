@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ms_utils_ii.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 16:07:34 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 16:01:57 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 19:38:29 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../I/ft_minishell.h"
+
+char	*ft_strtrim_free(char *s1, char const *set)
+{
+	char	*res;
+	int		i;
+	int		j;
+
+	if (!s1 || !set)
+		return (NULL);
+	i = 0;
+	j = ft_strlen(s1);
+	while (s1[i] && ft_strchr(set, s1[i]))
+		i++;
+	while (i < j && ft_strchr(set, s1[j]))
+		j--;
+	res = ft_substr(s1, i, j - i + 1);
+	free(s1);
+	return (res);
+}
 
 char	*ms_new_pwd(char *old_pwd)
 {
