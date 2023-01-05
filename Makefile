@@ -6,7 +6,11 @@
 #    By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 17:19:45 by mravera           #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2023/01/05 21:29:46 by trerolle         ###   ########.fr        #
+=======
+#    Updated: 2023/01/05 21:43:24 by mravera          ###   ########.fr        #
+>>>>>>> 08981e1ba6bc8c6907b218bb6ef66b28e99aeb1e
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,9 +42,13 @@ SRC = ms_main.c \
 			ms_exec.c \
 			ms_utils_exec.c \
 			ms_exit.c \
+<<<<<<< HEAD
 			ms_strlen.c \
 			ms_redirection.c \
 			ms_quote.c
+=======
+			ms_free \
+>>>>>>> 08981e1ba6bc8c6907b218bb6ef66b28e99aeb1e
 
 OBJS = $(addprefix $(FOLDSRC), $(SRC:.c=.o))
 UNAME = $(shell uname -s)

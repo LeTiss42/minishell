@@ -6,7 +6,11 @@
 /*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:21:55 by mravera           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/05 21:44:05 by trerolle         ###   ########.fr       */
+=======
+/*   Updated: 2023/01/05 21:44:27 by mravera          ###   ########.fr       */
+>>>>>>> 08981e1ba6bc8c6907b218bb6ef66b28e99aeb1e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +42,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	(void)env;
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	ms_prompt(t_admin *adm)
@@ -59,27 +63,26 @@ int	ms_prompt(t_admin *adm)
 	return (1);
 }
 
-int	ms_builtin(char *com, t_admin *adm)
+int	ms_isbuiltin(t_admin *adm)
 {
-	adm->comtab = ft_split(com, ' ');
-	if (adm->comtab[0] && ft_strncmp(adm->comtab[0], "echo", 5) == 0)
-		ms_echo(&adm->comtab[1]);
-	else if (adm->comtab[0] && ft_strncmp(adm->comtab[0], "pwd", 4) == 0)
-		ms_pwd(&adm->comtab[1]);
-	else if (adm->comtab[0] && ft_strncmp(adm->comtab[0], "cd", 3) == 0)
-		ms_cd(&adm->comtab[1], adm);
-	else if (adm->comtab[0] && ft_strncmp(adm->comtab[0], "env", 4) == 0)
-		ms_env(adm->env);
-	else if (adm->comtab[0] && ft_strncmp(adm->comtab[0], "export", 7) == 0)
-		ms_export(&adm->comtab[1], &adm->env);
-	else if (adm->comtab[0] && ft_strncmp(adm->comtab[0], "unset", 6) == 0)
-		ms_unset(&adm->comtab[1], adm);
-	else if (adm->comtab[0] && ft_strncmp(adm->comtab[0], "exit", 5) == 0)
-		return (ms_free_chartab(adm->comtab));
-	else if (adm->comtab[0])
-		printf("minishell: %s: command not found\n", adm->comtab[0]);
-	ms_free_chartab(adm->comtab);
-	return (1);
+	if (!adm->comlist->com)
+		return (1);
+	adm->comlist->com = ft_strtolower(adm->comlist->com);
+	if (!ft_strcmp("echo", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("cd", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("pwd", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("env", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("export", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("unset", adm->comlist->com))
+		return (1);
+	else if (!ft_strcmp("exit", adm->comlist->com))
+		return (1);
+	return (0);
 }
 
 void	ms_bonjour(t_admin *adm)

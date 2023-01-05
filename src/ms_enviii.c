@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:04:15 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 16:20:38 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 20:04:53 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,26 +81,4 @@ void	print_node(t_env *env, int opt)
 		}
 		env = env->next;
 	}
-}
-
-int	is_builtins(t_admin *adm)
-{
-	if (!adm->comlist->cmd)
-		return (1);
-	adm->comlist->cmd = ft_strtolower(adm->comlist->cmd);
-	if (!ft_strcmp("echo", adm->comlist->cmd))
-		return (1);
-	else if (!ft_strcmp("cd", adm->comlist->cmd))
-		return (1);
-	else if (!ft_strcmp("pwd", adm->comlist->cmd))
-		return (1);
-	else if (!ft_strcmp("env", adm->comlist->cmd))
-		return (1);
-	else if (!ft_strcmp("export", adm->comlist->cmd))
-		return (1);
-	else if (!ft_strcmp("unset", adm->comlist->cmd))
-		return (1);
-	else if (!ft_strcmp("exit", adm->comlist->cmd))
-		return (1);
-	return (0);
 }
