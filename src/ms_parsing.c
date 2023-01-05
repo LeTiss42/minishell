@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:46:12 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 17:30:03 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 21:46:50 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ms_parse_line(t_admin *adm, char *str)
 	return (0);
 }
 
-int	populate_pa(t_admin *adm, char *str, int *pop)
+int	fill_cmd(t_admin *adm, char *str, int *pop)
 {
 	int	n;
 	int	ret;

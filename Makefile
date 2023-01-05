@@ -6,7 +6,7 @@
 #    By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 17:19:45 by mravera           #+#    #+#              #
-#    Updated: 2023/01/05 16:47:25 by mravera          ###   ########.fr        #
+#    Updated: 2023/01/05 21:43:24 by mravera          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ SRC = ms_main.c \
 			ms_parsing.c \
 			ms_exec.c \
 			ms_utils_exec.c \
-			ms_exit.c
+			ms_exit.c \
+			ms_free \
 
 OBJS = $(addprefix $(FOLDSRC), $(SRC:.c=.o))
 UNAME = $(shell uname -s)

@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:19:17 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 18:30:33 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 21:46:47 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <readline/readline.h>
 //# include <sys/types.h>
 //# include <sys/stat.h>
-//# include <fcntl.h>
+# include <fcntl.h>
 //# include <sys/wait.h>
 //# include <sys/stat.h>
 //# include <sys/ioctl.h>
@@ -69,7 +69,7 @@ typedef struct s_admpipe
 	int		**fd;
 	int		*pid;
 	int		nbcmd;
-	int		pipe_bltin;
+	int		*pipe_bltin;
 }	t_admpipe;
 
 typedef struct s_admin //ad
@@ -91,11 +91,12 @@ typedef struct s_redir
 
 //ms_main.c
 int		ms_prompt(t_admin *adm);
-int		ms_builtin(char *com, t_admin *adm);
+int		ms_isbuiltin(t_admin *adm);
 void	ms_bonjour(t_admin *adm);
 
 //ms_parsing.c
 int		ms_parse_line(t_admin *adm, char *str);
+int		fill_cmd(t_admin *adm, char *str, int *pop);
 
 //ms_supersplit.c
 int		ms_supersplit(t_admin *adm);
@@ -135,6 +136,9 @@ void	init(t_admin *adm, char	**env);
 
 //ms_enviii.c
 void	append_t_node(t_env **head_ref, char *name, char *val);
+void	free_env(t_admin *adm);
+int		count_t_node(t_env *env);
+void	print_node(t_env *env, int opt);
 
 //ms_alphaprint.c
 int		ms_alphaprint(t_list *env);
@@ -164,6 +168,13 @@ t_list	*ms_delone_relink(t_list *dead, t_admin *adm);
 int		ms_exit(t_admin *adm, int exit);
 int		ms_exitfree(char *tofree, t_admin *adm, int exit);
 
+//ms_free.c
+void	free_all(t_admin *adm);
+void	free_tab(char **tabs);
+void	free_cmd(t_admin *adm);
+void	free_redir(t_admin *adm);
+void	free_pa(t_admin *adm);
+
 //ms_setsig.c
 void	sig_handler(int signum);
 void	handle_signal(void);
@@ -174,12 +185,16 @@ void	handle_signal(void);
 
 //ms_exec.c
 int		ms_exec(t_admin	*adm);
-int		ms_bin_execution(t_cmd *cmd);
+int		ms_exec_main(t_admin *adm, t_admpipe *admpipe, int i);
+void	my_exit(t_admin *adm, int flag);
+void	custom_err_exit(t_admin *adm, int arg, char *str, int ret);
 
 //ms_utils_exec.c
 int		ms_get_nbcmd(t_admin *adm);
-int		ms_initpid(t_admin *adm);
-int		ms_setpid(t_admin *adm);
+void	ms_setpipid(t_admin *adm, t_admpipe *admpipe);
+int		ms_execheck(t_admin *adm);
+int		fake_heredoc(t_admin *adm);
+int		ms_return_error(char *str, int status, int ret);
 
 //test
 void	rl_replace_line(const char *text, int clear_undo);

@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:01:58 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 16:04:02 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 21:33:22 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ void	init(t_admin *adm, char	**env)
 
 int	ft_env(t_admin *adm)
 {
-	if (adm->comlist->arg[1])
+	if (adm->comlist->args[1])
 	{
-		if (access(adm->comlist->arg[1], X_OK))
+		if (access(adm->comlist->args[1], X_OK))
 		{
 			g_lstpipe_status = errno;
-			perror(adm->comlist->cmd);
+			perror(adm->comlist->com);
 		}
 		else
 		{
 			g_lstpipe_status = errno;
-			perror(adm->comlist->cmd);
+			perror(adm->comlist->com);
 		}
 	}
 	else
@@ -89,11 +89,11 @@ void	add_env(t_admin *adm, int argid, char *name, char *val)
 	int		i;
 
 	if (!name)
-		name = ft_substr(adm->comlist->arg[argid], 0,
-				ms_lento(adm->comlist->arg[argid], '='));
+		name = ft_substr(adm->comlist->args[argid], 0,
+				ms_lento(adm->comlist->args[argid], '='));
 	if (!val)
-		val = ft_strtrim(adm->comlist->arg[argid]
-				+ ms_lento(adm->comlist->arg[argid],
+		val = ft_strtrim(adm->comlist->args[argid]
+				+ ms_lento(adm->comlist->args[argid],
 					'=') + 1, "\"");
 	i = get_i_env(adm, name);
 	if (i == -1)
