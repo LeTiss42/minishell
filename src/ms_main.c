@@ -6,49 +6,56 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:21:55 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/04 23:40:08 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:23:54 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../I/ft_minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	main(int ac, char **av, char **env)
 {
-	t_admin			adm;
-	struct termios	termios_s;
+	t_admin	adm;
+	int		temp;
 
-	(void)argc;
-	(void)argv;
-	if (tcgetattr(0, &termios_s) != 0)
-		return (1);
-	adm.env = ms_create_list_env(envp);
-	ms_setsig();
-	ms_bonjour(&adm);
-	ms_prompt(&adm);
-	if (tcsetattr(0, TCSANOW, &termios_s) != 0)
-		return (1);
-	return (0);
+	init(&adm, env);
+	while (1)
+	{
+		handle_signal();
+		if (!get_line(&adm))
+			break ;
+		temp = ms_split(&adm);
+		if (temp == 1)
+			break ;
+		if (temp == 2 || temp == 3)
+			continue ;
+		if (ms_exec(&adm))
+			break ;
+		free_pa(&adm);
+		free(adm.readline);
+	}
+	free_env(&adm);
+	free(adm.readline);
+	(void)ac;
+	(void)av;
+	(void)env;
+	return (EXIT_SUCCESS);
 }
 
 int	ms_prompt(t_admin *adm)
 {
-	char	*buffer;
+	struct termios	saved;
+	struct termios	attributes;
 
-	buffer = NULL;
-	while (adm->loop == 1)
-	{
-		if (buffer != NULL)
-		{
-			free(buffer);
-			buffer = NULL;
-		}
-		buffer = readline("minishell-0.5$ ");
-		if (buffer && *buffer)
-			add_history(buffer);
-		if (!buffer || (ms_builtin(buffer, adm) == 0))
-			return (ms_exitfree(buffer, adm, 1));
-	}
-	free(buffer);
+	tcgetattr(STDIN_FILENO, &saved);
+	tcgetattr(STDIN_FILENO, &attributes);
+	attributes.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
+	adm->readline = readline("minishell-0.5$ ");
+	if (adm->readline)
+		add_history(adm->readline);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &saved);
+	if (!adm->readline)
+		return (0);
 	return (1);
 }
 
@@ -84,3 +91,43 @@ void	ms_bonjour(t_admin *adm)
 	printf("For more details, please don't visit https://support.apple.com\n");
 	return ;
 }
+
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_admin			adm;
+// 	struct termios	termios_s;
+
+// 	(void)argc;
+// 	(void)argv;
+// 	if (tcgetattr(0, &termios_s) != 0)
+// 		return (1);
+// 	adm.env = ms_create_list_env(envp);
+// 	ms_setsig();
+// 	ms_bonjour(&adm);
+// 	ms_prompt(&adm);
+// 	if (tcsetattr(0, TCSANOW, &termios_s) != 0)
+// 		return (1);
+// 	return (0);
+// }
+
+// int	ms_prompt(t_admin *adm)
+// {
+// 	char	*buffer;
+
+// 	buffer = NULL;
+// 	while (adm->loop == 1)
+// 	{
+// 		if (buffer != NULL)
+// 		{
+// 			free(buffer);
+// 			buffer = NULL;
+// 		}
+// 		buffer = readline("minishell-0.5$ ");
+// 		if (buffer && *buffer)
+// 			add_history(buffer);
+// 		if (!buffer || (ms_builtin(buffer, adm) == 0))
+// 			return (ms_exitfree(buffer, adm, 1));
+// 	}
+// 	free(buffer);
+// 	return (1);
+// }

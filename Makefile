@@ -6,7 +6,7 @@
 #    By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 17:19:45 by mravera           #+#    #+#              #
-#    Updated: 2023/01/05 13:56:52 by mravera          ###   ########.fr        #
+#    Updated: 2023/01/05 16:47:25 by mravera          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,15 @@ SRC = ms_main.c \
 			ms_pwd.c \
 			ms_cd.c \
 			ms_env.c \
+			ms_envii.c \
+			ms_enviii.c \
+			ms_envii.c \
 			ms_export.c \
 			ms_setvar.c \
 			ms_unset.c \
 			ms_alphaprint.c \
 			ms_setsig.c \
+			ms_parsing.c \
 			ms_exec.c \
 			ms_utils_exec.c \
 			ms_exit.c

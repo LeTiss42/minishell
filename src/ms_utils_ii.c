@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 16:07:34 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/02 17:10:36 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:01:57 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,14 @@ int	ms_lstcomp(t_list *a, t_list *b)
 		res = 0;
 	free(buf);
 	return (res);
+}
+
+int	ms_lento(char *str, char x)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && (str[i] != x))
+		i ++;
+	return (i);
 }
