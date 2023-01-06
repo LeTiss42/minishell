@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:19:17 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/06 02:51:51 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 12:13:19 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,9 +190,9 @@ void	custom_err_redir(t_admin *adm, char *msg, int status);
 //ms_free.c
 void	free_all(t_admin *adm);
 void	free_tab(char **tabs);
-void	free_cmd(t_admin *adm);
+void	free_(t_admin *adm);
 void	free_redir(t_admin *adm);
-void	free_pa(t_admin *adm);
+void	free_cmd(t_admin *adm);
 
 //ms_setsig.c
 void	sig_handler(int signum);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:21:55 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/06 02:00:13 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 12:10:48 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		if (ms_exec(&adm))
 			break ;
-		free_pa(&adm);
+		free_cmd(&adm);
 		free(adm.readline);
 	}
 	free_env(&adm);
