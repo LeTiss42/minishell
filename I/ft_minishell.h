@@ -6,7 +6,7 @@
 /*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:19:17 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/06 12:13:19 by trerolle         ###   ########.fr       */
+/*   Updated: 2023/01/06 12:22:13 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	custom_err_redir(t_admin *adm, char *msg, int status);
 //ms_free.c
 void	free_all(t_admin *adm);
 void	free_tab(char **tabs);
-void	free_(t_admin *adm);
+void	free_com(t_admin *adm);
 void	free_redir(t_admin *adm);
 void	free_cmd(t_admin *adm);
 

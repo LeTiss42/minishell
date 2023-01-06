@@ -15,7 +15,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g -g3 -fsanitize=address
 #LIBS = -L Libft -L$(HOME)/.brew/opt/readline/lib -lft -ledit -lreadline -lhistory
 # integration correct
-LIBS = -L Libft -I /goinfre/mravera/.brew/Cellar/readline/8.2.1/include -L /goinfre/mravera/.brew/Cellar/readline/8.2.1/lib -lreadline -lft
+LIBS = -L Libft -I /goinfre/trerolle/.brew/Cellar/readline/8.2.1/include -L /goinfre/trerolle/.brew/Cellar/readline/8.2.1/lib -lreadline -lft
 RM = rm -rf
 FOLDSRC = ./src/
 SRC = ms_main.c \
