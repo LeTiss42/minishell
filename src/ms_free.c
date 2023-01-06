@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 20:12:42 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 22:24:06 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 12:11:56 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_all(t_admin *adm)
 {
 	free_env(adm);
 	if (adm->cmlst)
-		free_pa(adm);
+		free_cmd(adm);
 }
 
 void	free_tab(char **tabs)
@@ -29,10 +29,10 @@ void	free_tab(char **tabs)
 	free(tabs);
 }
 
-void	free_cmd(t_admin *adm)
+void	free_com(t_admin *adm)
 {
 	free(adm->readline);
-	free_pa(adm);
+	free_cmd(adm);
 	adm->cmlst = NULL;
 	adm->comhd = NULL;
 }
@@ -52,7 +52,7 @@ void	free_redir(t_admin *adm)
 	}
 }
 
-void	free_pa(t_admin *adm)
+void	free_cmd(t_admin *adm)
 {
 	int		n;
 	t_cmd	*next;
