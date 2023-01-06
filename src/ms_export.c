@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 17:00:54 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/06 00:44:18 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 17:09:25 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	ft_isexport(const char *str)
 	while (str[++i])
 	{
 		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')
-			|| str[i] == '=' || str[i] == '_')
+			|| str[i] == '=' || str[i] == '_' || str[i] == ':' || str[i] == '/'
+			|| str[i] == '.' || str[i] == '"')
 			continue ;
 		return (0);
 	}
