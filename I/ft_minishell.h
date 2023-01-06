@@ -6,7 +6,7 @@
 /*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:19:17 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/06 12:22:13 by trerolle         ###   ########.fr       */
+/*   Updated: 2023/01/06 14:02:20 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_redir
 //ms_main.c
 int		ms_prompt(t_admin *adm);
 int		ms_isbuiltin(t_admin *adm);
-void	ms_bonjour(t_admin *adm);
+void	ms_bonjour(void);
 
 //ms_parsing.c
 void	check_special_char(t_admin *adm, char *line, int *ret, int *n);
@@ -131,8 +131,8 @@ int		result_len(const char *s, const char *set, int *cnt);
 
 //builtins
 //ms_echo.c
-int		ms_echo(t_admin *adm);
-//int		ms_pre_echo(char **str, int *opt);
+int		ms_echo(char **str);
+int		ms_pre_echo(char **str, int *opt);
 
 //ms_pwd.c
 int		ms_pwd(void);

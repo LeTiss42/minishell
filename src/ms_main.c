@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:21:55 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/06 12:10:48 by trerolle         ###   ########.fr       */
+/*   Updated: 2023/01/06 13:10:11 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int ac, char **av, char **env)
 	t_admin	adm;
 	int		temp;
 
+	ms_bonjour();
 	init(&adm, env);
 	while (1)
 	{
@@ -37,7 +38,6 @@ int	main(int ac, char **av, char **env)
 	free(adm.readline);
 	(void)ac;
 	(void)av;
-	(void)env;
 	return (0);
 }
 
@@ -51,7 +51,7 @@ int	ms_prompt(t_admin *adm)
 	attributes.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
 	adm->readline = readline("minishell-0.5$ ");
-	if (adm->readline)
+	if (adm->readline && *adm->readline)
 		add_history(adm->readline);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &saved);
 	if (!adm->readline)
@@ -81,13 +81,13 @@ int	ms_isbuiltin(t_admin *adm)
 	return (0);
 }
 
-void	ms_bonjour(t_admin *adm)
+void	ms_bonjour(void)
 {
-	adm->loop = 1;
 	printf("\nYou are using our lite version of bash called Minishell.");
-	printf("\nTo update your account to use zsh, please don't run ");
+	printf("\nTo update your account to use zsh, please don't run \n");
 	printf("'chsh -s /bin/zsh' as it will not do anything at all.\n");
 	printf("For more details, please don't visit https://support.apple.com\n");
+	printf("as it has nothing to do with us.\n\n");
 	return ;
 }
 

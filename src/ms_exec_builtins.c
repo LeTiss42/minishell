@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 23:12:15 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/06 01:00:57 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 12:14:49 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	exec_blt(t_admin *adm)
 {
 	adm->cmlst->com = ft_strtolower(adm->cmlst->com);
 	if (!ft_strcmp("echo", adm->cmlst->com))
-		return (ms_echo(adm));
+		return (ms_echo(&adm->cmlst->args[1]));
 	else if (!ft_strcmp("cd", adm->cmlst->com))
 		return (ms_cd(adm));
 	else if (!ft_strcmp("pwd", adm->cmlst->com))

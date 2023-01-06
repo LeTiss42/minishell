@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec_check_execve.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 02:19:42 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/06 02:24:58 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 14:58:09 by trerolle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	create_cmd(char **path, char **cmd)
 			*cmd = ft_strjoin_f(npath, *cmd, 3);
 		}
 		else
-			*cmd = ft_strjoin_f(path[arr_i], *cmd, 3);
+			*cmd = ft_strjoin_f(path[arr_i], *cmd, 2);
 		if (access(*cmd, X_OK) == 0)
 			return (1);
 		free(*cmd);
