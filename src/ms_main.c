@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:21:55 by mravera           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/01/06 11:54:11 by mravera          ###   ########.fr       */
-=======
-/*   Updated: 2023/01/06 12:10:48 by trerolle         ###   ########.fr       */
->>>>>>> 653172e520129172164487d99240b7e991cfcc76
+/*   Updated: 2023/01/06 13:10:11 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +51,7 @@ int	ms_prompt(t_admin *adm)
 	attributes.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
 	adm->readline = readline("minishell-0.5$ ");
-	if (adm->readline)
+	if (adm->readline && *adm->readline)
 		add_history(adm->readline);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &saved);
 	if (!adm->readline)

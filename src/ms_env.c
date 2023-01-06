@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:01:58 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/06 11:53:36 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 13:57:09 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ms_env(t_admin *adm)
 	else
 	{
 		g_lstpipe_status = 0;
-		print_node(adm->env, 'c');
+		print_node(adm->env, 0);
 	}
 	return (0);
 }
