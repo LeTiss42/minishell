@@ -3,14 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+         #
+#    By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 17:19:45 by mravera           #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2023/01/05 21:29:46 by trerolle         ###   ########.fr        #
-=======
-#    Updated: 2023/01/05 21:43:24 by mravera          ###   ########.fr        #
->>>>>>> 08981e1ba6bc8c6907b218bb6ef66b28e99aeb1e
+#    Updated: 2023/01/06 02:57:05 by mravera          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,29 +22,33 @@ SRC = ms_main.c \
 			ms_supersplit.c \
 			ms_utils.c \
 			ms_utils_ii.c \
+			ms_utilsiii.c \
 			ms_echo.c \
 			ms_pwd.c \
 			ms_cd.c \
 			ms_env.c \
-			ms_envii.c \
 			ms_enviii.c \
-			ms_envii.c \
 			ms_export.c \
 			ms_setvar.c \
 			ms_unset.c \
-			ms_alphaprint.c \
 			ms_setsig.c \
 			ms_parsing.c \
 			ms_exec.c \
+			ms_exec_builtins.c \
+			ms_exec_redir.c \
+			ms_exec_check_execve.c \
 			ms_utils_exec.c \
+			ms_close_pipes.c \
+			ms_split_redir_utils.c \
 			ms_exit.c \
-<<<<<<< HEAD
-			ms_strlen.c \
+			ms_error.c \
+			ms_free.c \
+			ms_lstcmd.c \
+			ms_quote.c \
 			ms_redirection.c \
-			ms_quote.c
-=======
-			ms_free \
->>>>>>> 08981e1ba6bc8c6907b218bb6ef66b28e99aeb1e
+			ms_strlen_utils.c \
+			ms_check_dollar.c
+
 
 OBJS = $(addprefix $(FOLDSRC), $(SRC:.c=.o))
 UNAME = $(shell uname -s)

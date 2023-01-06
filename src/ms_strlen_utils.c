@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_strlen.c                                        :+:      :+:    :+:   */
+/*   ms_strlen_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/05 19:15:43 by trerolle          #+#    #+#             */
-/*   Updated: 2023/01/05 20:22:59 by trerolle         ###   ########.fr       */
+/*   Created: 2023/01/06 00:20:42 by mravera           #+#    #+#             */
+/*   Updated: 2023/01/06 02:54:06 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ms_skip_between_char(const char *s, int i, char c)
 			if (s[i] == c)
 				return (i);
 		}
-		write(2, "error\n", ft_strlen("error\n"));
+		write(2, "error\n", 6);
 		return (-1);
 	}
 	return (i);
@@ -50,12 +50,12 @@ int	ms_skip_operator(const char *s)
 	{
 		while (s[i] == '>' || s[i] == '<')
 			++i;
-		while (ft_isspace(s[i]) && s[i])
+		while (ms_isspace(s[i]) && s[i])
 			++i;
-		while (!ft_isspace(s[i]) && s[i]
+		while (!ms_isspace(s[i]) && s[i]
 			&& s[i] != '>' && s[i] != '<' && s[i] != '|')
 			++i;
-		while (ft_isspace(s[i]) && s[i])
+		while (ms_isspace(s[i]) && s[i])
 			++i;
 	}
 	return (i);
@@ -66,9 +66,9 @@ int	ms_strlen_separator(const char	*s, int flag)
 	int	i;
 
 	i = 0;
-	while (ft_isspace(s[i]) && s[i])
+	while (ms_isspace(s[i]) && s[i])
 		++i;
-	while (!ft_isspace(s[i]) && s[i])
+	while (!ms_isspace(s[i]) && s[i])
 	{
 		if (flag == 0 && (s[i] == '>' || s[i] == '<' || s[i] == '|'))
 			break ;
@@ -80,7 +80,7 @@ int	ms_strlen_separator(const char	*s, int flag)
 	}
 	if (flag == 2 && (s[i] == '>' || s[i] == '<'))
 		i += ms_skip_operator(s + i);
-	while (ft_isspace(s[i]) && s[i])
+	while (ms_isspace(s[i]) && s[i])
 		++i;
 	if (flag == 2 && (s[i] == '>' || s[i] == '<'))
 		i += ms_skip_operator(s + i);

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_supersplit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 17:10:17 by mravera           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/01/05 18:41:19 by trerolle         ###   ########.fr       */
-=======
-/*   Updated: 2023/01/05 21:43:25 by mravera          ###   ########.fr       */
->>>>>>> 08981e1ba6bc8c6907b218bb6ef66b28e99aeb1e
+/*   Updated: 2023/01/06 02:27:05 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +26,32 @@ int	ms_supersplit(t_admin *adm)
 	}
 	trim_quote(adm);
 	return (0);
+}
+
+char	*ft_strjoin_f(char *s1, char *s2, int mode)
+{
+	char	*res;
+	int		i;
+	int		j;
+
+	if (!s1 || !s2)
+		return (NULL);
+	res = ft_calloc(sizeof(char), ft_strlen(s1) + ft_strlen(s2) + 1);
+	i = 0;
+	j = 0;
+	while (s1[j])
+		res[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		res[i++] = s2[j++];
+	if (mode == 1)
+		free(s1);
+	else if (mode == 2)
+		free(s2);
+	else if (mode == 3)
+	{
+		free(s1);
+		free(s2);
+	}
+	return (res);
 }

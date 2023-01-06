@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_quote.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trerolle <trerolle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 20:11:32 by trerolle          #+#    #+#             */
-/*   Updated: 2023/01/05 20:19:40 by trerolle         ###   ########.fr       */
+/*   Updated: 2023/01/06 02:49:54 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,26 +65,26 @@ void	trim_quote(t_admin *adm)
 {
 	int	i;
 
-	while (adm->comlist)
+	while (adm->cmlst)
 	{
-		if (!adm->comlist->com)
+		if (!adm->cmlst->com)
 			break ;
-		if (adm->comlist->com[0] == '"')
-			adm->comlist->com = ft_strtrim_f(adm->comlist->com, "\"");
-		else if (adm->comlist->com[0] == '\'')
-			adm->comlist->com = ft_strtrim_f(adm->comlist->com, "'");
+		if (adm->cmlst->com[0] == '"')
+			adm->cmlst->com = ft_strtrim_free(adm->cmlst->com, "\"");
+		else if (adm->cmlst->com[0] == '\'')
+			adm->cmlst->com = ft_strtrim_free(adm->cmlst->com, "'");
 		i = -1;
-		while (adm->comlist->args[++i])
+		while (adm->cmlst->args[++i])
 		{
-			if (adm->comlist->args[i][0] != '\'')
+			if (adm->cmlst->args[i][0] != '\'')
 			{
-				adm->comlist->args[i] = ft_strtrim_f(adm->comlist->args[i], "\"");
+				adm->cmlst->args[i] = ft_strtrim_free(adm->cmlst->args[i], "\"");
 				check_dollar(adm, i);
 			}
-			else if (adm->comlist->args[i][0] == '\'')
-				adm->comlist->args[i] = ft_strtrim_f(adm->comlist->args[i], "'");
+			else if (adm->cmlst->args[i][0] == '\'')
+				adm->cmlst->args[i] = ft_strtrim_free(adm->cmlst->args[i], "'");
 		}
-		adm->comlist = adm->comlist->next;
+		adm->cmlst = adm->cmlst->next;
 	}
-	adm->comlist = adm->comhd;
+	adm->cmlst = adm->comhd;
 }

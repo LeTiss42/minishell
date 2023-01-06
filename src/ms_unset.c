@@ -6,62 +6,67 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:23:28 by mravera           #+#    #+#             */
-/*   Updated: 2022/12/22 16:45:25 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 00:49:59 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../I/ft_minishell.h"
 
-int	ms_unset(char **var, t_admin *adm)
+int	ms_unset(t_admin *adm)
+{
+	t_env	*tmp;
+	int		size;
+	int		i;
+	int		status;
+
+	i = 0;
+	status = 0;
+	while (adm->cmlst->args[++i])
+	{
+		if (ms_isunset(adm->cmlst->args[i]))
+		{
+			size = get_i_env(adm, adm->cmlst->args[i]);
+			if (size == -1)
+				continue ;
+			tmp = get_env(adm, size);
+			delete_t_node(&adm->env, tmp);
+		}
+		else
+		{
+			status = 1;
+			custom_err(adm, i, "Not a valid identifier");
+		}
+	}
+	g_lstpipe_status = status;
+	return (0);
+}
+
+int	ms_isunset(const char *str)
 {
 	int	i;
 
-	i = 0;
-	if (var[i] == NULL)
-		return (1);
-	while (var[i])
-		ms_unsetone(var[i++], adm);
-	return (1);
-}
-
-int	ms_unsetone(char *var, t_admin *adm)
-{
-	char	*equal;
-	char	*trim;
-	t_list	*f;
-
-	f = adm->env;
-	trim = ms_trimenv(var);
-	equal = ft_strjoin(trim, "=");
-	while (f)
+	i = -1;
+	while (str[++i])
 	{
-		if (ft_strncmp((char *)f->content, trim, ft_strlen(trim) + 1) == 0
-			|| ft_strncmp((char *)f->content, equal, ft_strlen(equal)) == 0)
-			f = ms_delone_relink(f, adm);
-		else
-			f = f->next;
+		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')
+			|| str[i] == '_')
+			continue ;
+		return (0);
 	}
-	free(trim);
-	free(equal);
 	return (1);
 }
 
-t_list	*ms_delone_relink(t_list *dead, t_admin *adm)
+void	delete_t_node(t_env **head_ref, t_env *del)
 {
-	t_list	*f;
-	t_list	*res;
-
-	res = dead->next;
-	f = adm->env;
-	while (f && (f != dead) && (f->next != dead))
-		f = f->next;
-	if (f == dead)
-		adm->env = f->next;
-	else if (f->next == dead)
-		f->next = dead->next;
-	else if (!f)
-		printf("Error in lsrelink\n");
-	if (f)
-		ft_lstdelone(dead, &del);
-	return (res);
+	if (*head_ref == NULL || del == NULL)
+		return ;
+	if (*head_ref == del)
+		*head_ref = del->next;
+	if (del->next != NULL)
+		del->next->prev = del->prev;
+	if (del->prev != NULL)
+		del->prev->next = del->next;
+	free(del->name);
+	free(del->val);
+	free(del);
 }

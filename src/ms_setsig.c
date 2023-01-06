@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 03:06:05 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 16:20:13 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 02:17:28 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ void	handle_signal(void)
 {
 	signal(SIGQUIT, sig_handler);
 	signal(SIGINT, sig_handler);
+}
+
+void	child_handler(int signum)
+{
+	if (signum == SIGINT)
+		ft_printf("\n");
+	if (signum == SIGQUIT)
+		ft_printf("Quit: %d\n", SIGQUIT);
+}
+
+void	handle_child_signal(void)
+{
+	signal(SIGQUIT, child_handler);
+	signal(SIGINT, child_handler);
 }
 
 //monmien :

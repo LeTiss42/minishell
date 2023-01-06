@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:15:49 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 20:29:18 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 02:30:36 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ int	ms_exec(t_admin	*adm)
 
 	ms_setpipid(adm, &admpipe);
 	i = 0;
-	pa_lst_fst_or_lst(&adm->comlist, 0);
-	while (adm->comlist)
+	cmd_lst_first_or_last(&adm->cmlst, 0);
+	while (adm->cmlst)
 	{
 		if (ms_exec_main(adm, &admpipe, i))
 			break ;
-		if (adm->comlist->next)
+		if (adm->cmlst->next)
 		{
 			++i;
-			adm->comlist = adm->comlist->next;
+			adm->cmlst = adm->cmlst->next;
 		}
 		else
 			break ;
@@ -41,7 +41,7 @@ int	ms_exec_main(t_admin *adm, t_admpipe *admpipe, int i)
 {
 	if (ms_execheck(adm))
 		return (1);
-	else if (is_builtins(adm) && !adm->comlist->next)
+	else if (ms_isbuiltin(adm) && !adm->cmlst->next)
 		return (ms_exec_builtins(adm, admpipe, i));
 	else
 	{
@@ -51,17 +51,17 @@ int	ms_exec_main(t_admin *adm, t_admpipe *admpipe, int i)
 			my_exit(adm, write(2, "Error: fork\n", 12));
 		if (admpipe->pid[i] == 0)
 		{
-			if (adm->comlist->prev && !adm->comlist->is_blt)
+			if (adm->cmlst->prev && !adm->cmlst->is_blt)
 				dup2(admpipe->fd[i - 1][0], STDIN_FILENO);
-			if (adm->comlist->next)
+			if (adm->cmlst->next)
 				dup2(admpipe->fd[i][1], STDOUT_FILENO);
-			if ((adm->comlist->prev
-					&& !adm->comlist->is_blt) || adm->comlist->next)
+			if ((adm->cmlst->prev
+					&& !adm->cmlst->is_blt) || adm->cmlst->next)
 				my_close2(admpipe->fd, admpipe->nbcmd, i, 1);
 			if (ms_exec_check_execve(adm))
 				custom_err_exit(adm, 0, "cmd not found", 127);
 		}
-		my_close(adm, pipe, i);
+		my_close(adm, admpipe, i);
 		return (0);
 	}
 }
@@ -78,10 +78,10 @@ void	custom_err_exit(t_admin *adm, int arg, char *str, int ret)
 	if (arg != 0)
 	{
 		write(2, ": ", 2);
-		write(2, adm->comlist->com, ft_strlen(adm->comlist->com));
+		write(2, adm->cmlst->com, ft_strlen(adm->cmlst->com));
 	}
 	write(2, ": ", 2);
-	write(2, adm->comlist->args[arg], ft_strlen(adm->comlist->args[arg]));
+	write(2, adm->cmlst->args[arg], ft_strlen(adm->cmlst->args[arg]));
 	write(2, ": ", 2);
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);

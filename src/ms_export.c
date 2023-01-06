@@ -6,97 +6,111 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 17:00:54 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/02 17:27:39 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 00:44:18 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../I/ft_minishell.h"
 
-int	ms_export(char **var, t_list **env)
+int	ms_export(t_admin *adm)
 {
-	int		i;
+	int	i;
+	int	checker;
+	int	status;
 
-	i = 0;
-	if (var[i] == NULL)
-		return (ms_alphaprint(*env));
-	while (var[i])
-	{
-		if (!ms_check_identifier(var[i]))
-			printf("minishell: export: not a valid identifier\n");
-		else
-			ms_setvar(var[i], env);
-		i++;
-	}
-	return (1);
-}
-
-int	ms_display_all(t_list *env)
-{
-	char	*buf;
-
-	while (env)
-	{
-		if (!ft_strchr(env->content, '='))
-			printf("declare -x %s\n", (char *)env->content);
-		else
-		{
-			buf = ms_arg_inquote((char *)env->content);
-			printf("declare -x %s\n", buf);
-			if (buf != NULL)
-				free(buf);
-		}
-		env = env->next;
-	}
-	return (1);
-}
-
-int	ms_display_one(t_list *env)
-{
-	char	*buf;
-
-	if (!ft_strchr(env->content, '='))
-		printf("declare -x %s\n", (char *)env->content);
+	status = 0;
+	if (!adm->cmlst->args[1])
+		show_export(adm);
 	else
 	{
-		buf = ms_arg_inquote((char *)env->content);
-		printf("declare -x %s\n", buf);
-		if (buf != NULL)
-			free(buf);
+		i = 0;
+		while (adm->cmlst->args[++i])
+		{
+			checker = ft_isexport(adm->cmlst->args[i]);
+			if (checker)
+				add_export(adm, i);
+			else
+			{
+				status = 1;
+				custom_err(adm, i, "Not a valid identifier");
+			}
+		}
 	}
-	return (1);
-}
-
-int	ms_check_identifier(char *str)
-{
-	if (ft_isalpha(*str) || (*str == '_'))
-		return (1);
+	g_lstpipe_status = status;
 	return (0);
 }
 
-char	*ms_arg_inquote(char *str)
+int	ft_isexport(const char *str)
 {
-	char	*res;
+	int	i;
+
+	i = -1;
+	if (str[0] == '=')
+		return (0);
+	while (str[++i])
+	{
+		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')
+			|| str[i] == '=' || str[i] == '_')
+			continue ;
+		return (0);
+	}
+	return (1);
+}
+
+void	show_export(t_admin *adm)
+{
+	t_admin	dup;
+	t_env	*tmp;
+
+	dup.env = NULL;
+	tmp = adm->env;
+	while (tmp)
+	{
+		add_env(&dup, 1, ft_strdup(tmp->name), ft_strdup(tmp->val));
+		tmp = tmp->next;
+	}
+	sort_export(&dup, count_t_node(dup.env));
+	print_node(dup.env, 1);
+	free_env(&dup);
+}
+
+void	add_export(t_admin *adm, int i)
+{
+	if (ft_strchr(adm->cmlst->args[i], '='))
+	{
+		if (ft_strlen(ft_strchr(adm->cmlst->args[i], '=')) > 1)
+			add_env(adm, i, NULL, NULL);
+		else
+			add_env(adm, i, NULL, ft_strdup(""));
+	}
+	else
+		add_env(adm, i, NULL, ft_strdup("NULL"));
+}
+
+void	sort_export(t_admin *adm, int count)
+{
+	t_env	*tmp;
 	int		i;
 	int		j;
+	char	*buf;
 
 	i = 0;
-	j = 0;
-	if (str == NULL)
-		return (NULL);
-	res = malloc(sizeof(char) * ft_strlen(str) + 3);
-	if (!res)
-		return (NULL);
-	while (str[i] && (str[i] != '='))
-		res[i++] = str[j++];
-	if (str[i] == '=')
+	while (i++ < count)
 	{
-		res[j++] = str[i++];
-		res[j++] = '"';
+		j = 0 + i;
+		tmp = adm->env;
+		while (j++ < count)
+		{
+			if (ft_strcmp(tmp->name, tmp->next->name) > 0)
+			{
+				buf = tmp->val;
+				tmp->val = tmp->next->val;
+				tmp->next->val = buf;
+				buf = tmp->name;
+				tmp->name = tmp->next->name;
+				tmp->next->name = buf;
+			}
+			tmp = tmp->next;
+		}
 	}
-	while (str[i])
-		res[j++] = str[i++];
-	if (str[i] == '\0')
-		res[j++] = '"';
-	res[j] = '\0';
-	return (res);
 }

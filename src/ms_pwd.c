@@ -6,28 +6,38 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 16:53:20 by mravera           #+#    #+#             */
-/*   Updated: 2022/12/08 15:26:51 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/06 00:07:04 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../I/ft_minishell.h"
 
-int	ms_pwd(char **str)
+int	ms_pwd(void)
 {
-	char	*buf;
+	char	buf[1024];
 
-	(void)str;
-	buf = getcwd(NULL, 0);
-	if (buf == NULL)
-	{
-		perror(NULL);
-		free(buf);
-		return (1);
-	}
-	printf("%s\n", buf);
-	free(buf);
+	if (getcwd(buf, 1024))
+		ft_printf("%s\n", buf);
+	g_lstpipe_status = 0;
 	return (0);
 }
+
+// int	ms_pwd(void)
+// {
+// 	char	*buf;
+
+// 	(void)str;
+// 	buf = getcwd(NULL, 0);
+// 	if (buf == NULL)
+// 	{
+// 		perror(NULL);
+// 		free(buf);
+// 		return (1);
+// 	}
+// 	printf("%s\n", buf);
+// 	free(buf);
+// 	return (0);
+// }
 
 /*
 int	ms_pwd(char **str)

@@ -5,56 +5,103 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 12:12:46 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/04 13:02:46 by mravera          ###   ########.fr       */
+/*   Created: 2023/01/05 15:01:58 by mravera           #+#    #+#             */
+/*   Updated: 2023/01/06 00:10:47 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../I/ft_minishell.h"
 
-t_list	*ms_create_list_env(char **envp)
+void	init(t_admin *adm, char	**env)
 {
-	t_list	*list_env;
-	t_list	*new_elem;
-	char	*content;
+	size_t	i;
+	size_t	j;
+	char	*name;
+	char	*val;
+
+	i = ms_strlen_tab(env);
+	adm->env = NULL;
+	j = 0;
+	while (j < i)
+	{
+		name = ft_substr(env[j], 0, ms_lento(env[j], '='));
+		val = ft_strdup(env[j] + 1 + ms_lento(env[j], '='));
+		append_t_node(&adm->env, name, val);
+		j++;
+	}
+	adm->cmlst = NULL;
+	g_lstpipe_status = 0;
+}
+
+int	ms_env(t_admin *adm)
+{
+	if (adm->cmlst->args[1])
+	{
+		if (access(adm->cmlst->args[1], X_OK))
+		{
+			g_lstpipe_status = errno;
+			perror(adm->cmlst->com);
+		}
+		else
+		{
+			g_lstpipe_status = errno;
+			perror(adm->cmlst->com);
+		}
+	}
+	else
+	{
+		g_lstpipe_status = 0;
+		print_node(adm->env, 'c');
+	}
+	return (0);
+}
+
+int	get_i_env(t_admin *adm, char *name)
+{
+	t_env	*temp;
 	int		i;
 
+	temp = adm->env;
 	i = 0;
-	list_env = NULL;
-	while (envp[i])
+	while (temp)
 	{
-		content = ft_strdup(envp[i]);
-		new_elem = ft_lstnew((void *)content);
-		ft_lstadd_back(&list_env, new_elem);
+		if (!ft_strcmp(temp->name, name))
+			return (i);
+		temp = temp->next;
 		i++;
 	}
-	ms_setup_env(list_env);
-	return (list_env);
+	return (-1);
 }
 
-int	ms_setup_env(t_list *env)
+t_env	*get_env(t_admin *adm, int i)
 {
-	while (env)
-	{
-		if (ft_strncmp((char *)env->content, "OLDPWD=", 7) == 0)
-		{
-			free(env->content);
-			env->content = ft_strdup("OLDPWD");
-		}
-		env = env->next;
-	}	
-	return (1);
+	t_env	*temp;
+
+	temp = adm->env;
+	while (i--)
+		temp = temp->next;
+	return (temp);
 }
 
-void	ms_env(t_list *env)
+void	add_env(t_admin *adm, int argid, char *name, char *val)
 {
-	if (!env)
-		printf("Error, env seems empty.\n");
-	while (env)
+	t_env	*temp;
+	int		i;
+
+	if (!name)
+		name = ft_substr(adm->cmlst->args[argid], 0,
+				ms_lento(adm->cmlst->args[argid], '='));
+	if (!val)
+		val = ft_strtrim(adm->cmlst->args[argid]
+				+ ms_lento(adm->cmlst->args[argid],
+					'=') + 1, "\"");
+	i = get_i_env(adm, name);
+	if (i == -1)
+		append_t_node(&adm->env, name, val);
+	else
 	{
-		if (ft_strchr((char *)env->content, '='))
-			printf("%s\n", (char *)env->content);
-		env = env->next;
+		temp = get_env(adm, i);
+		temp->val = val;
 	}
-	return ;
+	g_lstpipe_status = 0;
 }

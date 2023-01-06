@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 18:29:39 by mravera           #+#    #+#             */
-/*   Updated: 2022/12/08 15:24:32 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 23:30:41 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,51 +21,53 @@
 //ligne suivante fausse dans bash, vraie dans zsh.
 //Le premier '-' seul est ignore puis la fonction n'accepte plus d'option.
 
-int	ms_echo(char **str)
+int	ms_echo(t_admin *adm)
 {
-	int	i;
 	int	opt;
-
-	i = 0;
-	opt = 0;
-	if (!str || !str[0])
-	{
-		write(1, "\n", 1);
-		return (1);
-	}
-	i = ms_pre_echo(str, &opt);
-	while (str[i])
-	{
-		ft_putstr_fd(str[i++], 1);
-		if (str[i] != NULL)
-			write(1, " ", 1);
-	}
-	if (opt == 0)
-		write(1, "\n", 1);
-	return (0);
-}
-
-int	ms_pre_echo(char **str, int *opt)
-{
 	int	i;
 	int	j;
 
-	i = 0;
-	j = 0;
-	while (str[i])
+	opt = 0;
+	if (adm->cmlst->args[1])
+		if (!ft_strcmp(adm->cmlst->args[1], "-n")
+			|| ft_strcmp(adm->cmlst->args[1], "-n") == 110)
+			opt = 1;
+	i = 1 + opt;
+	j = (int)ms_strlen_tab(adm->cmlst->args);
+	while (i < j)
 	{
-		j = 0;
-		if ((str[i][j] == '-') && (str[i][j + 1] == 'n'))
-		{
-			j++;
-			while (str[i][j] && (str[i][j] == 'n'))
-				j++;
-		}
-		if (str[i][j] == '\0')
-			*opt = 1;
-		else
-			return (i);
+		ft_printf("%s", adm->cmlst->args[i]);
+		if (i < j - 1)
+			ft_printf(" ");
 		i++;
 	}
-	return (i);
+	if (!opt)
+		ft_printf("\n");
+	g_lstpipe_status = 0;
+	return (0);
 }
+
+// int	ms_pre_echo(char **str, int *opt)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = 0;
+// 	j = 0;
+// 	while (str[i])
+// 	{
+// 		j = 0;
+// 		if ((str[i][j] == '-') && (str[i][j + 1] == 'n'))
+// 		{
+// 			j++;
+// 			while (str[i][j] && (str[i][j] == 'n'))
+// 				j++;
+// 		}
+// 		if (str[i][j] == '\0')
+// 			*opt = 1;
+// 		else
+// 			return (i);
+// 		i++;
+// 	}
+// 	return (i);
+// }

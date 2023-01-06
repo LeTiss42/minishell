@@ -6,7 +6,7 @@
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 20:12:42 by mravera           #+#    #+#             */
-/*   Updated: 2023/01/05 20:20:12 by mravera          ###   ########.fr       */
+/*   Updated: 2023/01/05 22:24:06 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_all(t_admin *adm)
 {
 	free_env(adm);
-	if (adm->comlist)
+	if (adm->cmlst)
 		free_pa(adm);
 }
 
@@ -33,7 +33,7 @@ void	free_cmd(t_admin *adm)
 {
 	free(adm->readline);
 	free_pa(adm);
-	adm->comlist = NULL;
+	adm->cmlst = NULL;
 	adm->comhd = NULL;
 }
 
@@ -41,14 +41,14 @@ void	free_redir(t_admin *adm)
 {
 	t_redir	*next;
 
-	redir_lst_fst_or_lst(&adm->comlist->redir, 0);
-	while (adm->comlist->redir)
+	redir_lst_fst_or_lst(&adm->cmlst->redir, 0);
+	while (adm->cmlst->redir)
 	{
-		next = adm->comlist->redir->next;
-		free(adm->comlist->redir->op);
-		free(adm->comlist->redir->file);
-		free(adm->comlist->redir);
-		adm->comlist->redir = next;
+		next = adm->cmlst->redir->next;
+		free(adm->cmlst->redir->op);
+		free(adm->cmlst->redir->file);
+		free(adm->cmlst->redir);
+		adm->cmlst->redir = next;
 	}
 }
 
@@ -57,19 +57,19 @@ void	free_pa(t_admin *adm)
 	int		n;
 	t_cmd	*next;
 
-	adm->comlist = adm->comhd;
-	while (adm->comlist)
+	adm->cmlst = adm->comhd;
+	while (adm->cmlst)
 	{
-		next = adm->comlist->next;
-		free(adm->comlist->com);
-		free(adm->comlist->path);
+		next = adm->cmlst->next;
+		free(adm->cmlst->com);
+		free(adm->cmlst->path);
 		n = -1;
-		if (adm->comlist->args)
-			while (adm->comlist->args[++n])
-				free(adm->comlist->args[n]);
-		free(adm->comlist->args);
+		if (adm->cmlst->args)
+			while (adm->cmlst->args[++n])
+				free(adm->cmlst->args[n]);
+		free(adm->cmlst->args);
 		free_redir(adm);
-		free(adm->comlist);
-		adm->comlist = next;
+		free(adm->cmlst);
+		adm->cmlst = next;
 	}
 }

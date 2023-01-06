@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_redirection.c                                   :+:      :+:    :+:   */
+/*   ms_split_redir_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mravera <mravera@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/05 18:45:14 by trerolle          #+#    #+#             */
-/*   Updated: 2023/01/06 02:52:58 by mravera          ###   ########.fr       */
+/*   Created: 2023/01/06 01:36:25 by mravera           #+#    #+#             */
+/*   Updated: 2023/01/06 01:37:43 by mravera          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../I/ft_minishell.h"
 
-void	ms_redir_lst_first_or_last(t_redir **redir, int flag)
+void	redir_lst_fst_or_lst(t_redir **redir, int flag)
 {
 	if (flag == 0)
 	{
@@ -34,19 +34,19 @@ void	ms_redir_lst_first_or_last(t_redir **redir, int flag)
 	}
 }
 
-void	ms_redir_lstadd_next(t_redir **alst, t_redir *next)
+void	redir_lstadd_next(t_redir **alst, t_redir *next)
 {
 	if (*alst)
 	{
-		ms_redir_lst_first_or_last(alst, 1);
+		redir_lst_fst_or_lst(alst, 1);
 		(*alst)->next = next;
-		ms_redir_lst_first_or_last(alst, 1);
+		redir_lst_fst_or_lst(alst, 1);
 	}
 	else
 		*alst = next;
 }
 
-t_redir	*ms_redir_lstnew(struct s_redir *previous)
+t_redir	*redir_lstnew(struct s_redir *previous)
 {
 	t_redir	*redir;
 
@@ -61,28 +61,4 @@ t_redir	*ms_redir_lstnew(struct s_redir *previous)
 		redir->prev = NULL;
 	redir->next = NULL;
 	return (redir);
-}
-
-int	ms_fill_redir(t_admin *adm, const char *l)
-{
-	int	ret;
-
-	ret = 0;
-	while (*(l + ret) == ' ')
-		ret++;
-	while (*(l + ret) == '>' || *(l + ret) == '<')
-	{
-		if (!adm->cmlst->redir)
-			adm->cmlst->redir = ms_redir_lstnew(NULL);
-		else
-			ms_redir_lstadd_next(&adm->cmlst->redir,
-				ms_redir_lstnew(adm->cmlst->redir));
-		adm->cmlst->redir->op = ft_strtrim_free(
-				ft_substr(l + ret, 0, ms_strlen_operator(l + ret)), " ");
-		ret += ms_strlen_operator(l + ret);
-		adm->cmlst->redir->file = ft_strtrim_free(
-				ft_substr(l + ret, 0, ms_strlen_separator(l + ret, 0)), " ");
-		ret += ms_strlen_separator(l + ret, 0);
-	}
-	return (ret);
 }
